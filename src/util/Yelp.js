@@ -9,22 +9,29 @@ const Yelp = {
 			return new Promise(resolve =>	resolve(accessToken));
 		}
 		// https://api.yelp.com/v3/businesses/search
-		return fetch('https://api.yelp.com/oauth2/token?grant_type=client_credentials&client_id=' + clientId + '&client_secret=' + secret,
+		return fetch('https://cors-anywhere.herokuapp.com/https://api.yelp.com/oauth2/token?grant_type=client_credentials&client_id=' + clientId + '&client_secret=' + secret,
 								{method: 'POST'})
 		.then((response) => response.json())
 		.then((jsonResponse) => accessToken = jsonResponse.access_token)
 			
 	},
+	//https://cors-anywhere.herokuapp.com/api.yelp.com/v3/businesses/search?
 	search(term, location, sortBy) {
 		return Yelp.getAccessToken().then(() => {
-			fetch(`https://cors-anywhere.herokuapp.com/api.yelp.com/v3/businesses/search?term=${term}&location=${location}&sort_by=${sortBy}`, {headers:{Authorization:`Bearer ${accessToken}`}})
+			return fetch(
+				`https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${term}&location=${location}&sort_by=${sortBy}`, {headers:{Authorization:`Bearer ${accessToken}`}}
+				
+			)
 		})
-		.then(response => response.json())
+		.then(response => {
+//			console.log(response.json());
+			return response.json()})
 		.then(jsonResponse => {
+//			console.log(jsonResponse);
 			if (jsonResponse.businesses) {
-				jsonResponse.businesses.map(business => {
-					console.log('business', business);
-					return {
+				return jsonResponse.businesses.map(business => {
+//					console.log('business', business);
+					let the_business = {
 									id: business.id,
 									imageSrc: business.image_url,
 									name: business.name,
@@ -35,10 +42,12 @@ const Yelp = {
 									rating: business.rating,
 									reviewCount: business.review_count
 								 }
+//					console.log(the_business);
+					return the_business;
 				})
 			}
 		});
 	}
 }
 
-module.exports = Yelp;
+export default Yelp;

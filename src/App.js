@@ -37,12 +37,15 @@ class App extends Component {
 	}
 	
 	searchYelp(term, location, sortBy) {
-		// console.log(`Searching Yelp with ${term}, ${location}, ${sortBy}`);
+//		console.log(`Searching Yelp with ${term}, ${location}, ${sortBy}`);
 		Yelp.search(term, location, sortBy)
-		.then(businesses => this.setState({businesses}));
+		.then(businesses => {
+//			console.log(businesses);
+			this.setState({businesses})});
 	}
 	
   render() {
+		console.log()
     return (
       <div className='App'>
 				<h1>ravenous</h1>
