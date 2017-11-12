@@ -1,5 +1,5 @@
-const clientId = 'cWBSxsgTbijwKzdzLnjqNg';
-const secret = 'O4XOhh75Z6suV0sSR2M6nNnXvkyb0O1CltJIzBieo4JgRKtThJ90lQgqEVNf49x8';
+const clientId = '';
+const secret = '';
 let accessToken = '';
 
 const Yelp = {
@@ -15,7 +15,6 @@ const Yelp = {
 		.then((jsonResponse) => accessToken = jsonResponse.access_token)
 			
 	},
-	//https://cors-anywhere.herokuapp.com/api.yelp.com/v3/businesses/search?
 	search(term, location, sortBy) {
 		return Yelp.getAccessToken().then(() => {
 			return fetch(
@@ -24,13 +23,10 @@ const Yelp = {
 			)
 		})
 		.then(response => {
-//			console.log(response.json());
 			return response.json()})
 		.then(jsonResponse => {
-//			console.log(jsonResponse);
 			if (jsonResponse.businesses) {
 				return jsonResponse.businesses.map(business => {
-//					console.log('business', business);
 					let the_business = {
 									id: business.id,
 									imageSrc: business.image_url,
@@ -42,7 +38,6 @@ const Yelp = {
 									rating: business.rating,
 									reviewCount: business.review_count
 								 }
-//					console.log(the_business);
 					return the_business;
 				})
 			}

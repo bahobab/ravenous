@@ -40,7 +40,6 @@ class App extends Component {
 //		console.log(`Searching Yelp with ${term}, ${location}, ${sortBy}`);
 		Yelp.search(term, location, sortBy)
 		.then(businesses => {
-//			console.log(businesses);
 			this.setState({businesses})});
 	}
 	
